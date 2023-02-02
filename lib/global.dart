@@ -1,2 +1,1 @@
-library this;
-
+library global;

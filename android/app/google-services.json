@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "305615956146",
+    "project_id": "college-ditto",
+    "storage_bucket": "college-ditto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305615956146:android:b9575a606710aa806d81ab",
+        "android_client_info": {
+          "package_name": "com.example.ditto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305615956146-4mks2g7dtait3pfqn49k8t04gm45vuah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCITe_Jtm7uMU6iL226e29qs87G8WtSC7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305615956146-4mks2g7dtait3pfqn49k8t04gm45vuah.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
