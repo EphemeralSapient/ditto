@@ -2,6 +2,7 @@ import 'package:ditto/login/activate_account.dart';
 import 'package:ditto/login/forgot_pass.dart';
 import 'package:ditto/login/sign_up.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:indexed/indexed.dart';
 
 class login_screen extends StatefulWidget {
@@ -80,8 +81,11 @@ class _login_screenState extends State<login_screen> {
                           TextField(
                             textAlign: TextAlign.center,
                             controller: password,
-                            obscureText: _passwordVisible,
+                            obscureText: !_passwordVisible,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(4),
+                            ],
                             decoration: InputDecoration(
                               floatingLabelAlignment:
                                   FloatingLabelAlignment.center,
