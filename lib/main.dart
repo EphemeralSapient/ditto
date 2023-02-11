@@ -1,3 +1,4 @@
+import 'package:ditto/global.dart';
 import 'package:ditto/login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -8,6 +9,7 @@ import 'package:ditto/routes.dart' show route, addRoute;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  init();
   runApp(const MyApp());
 }
 

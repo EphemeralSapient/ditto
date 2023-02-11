@@ -171,9 +171,14 @@ class _login_screenState extends State<login_screen> {
                             onTap: () {
                               activateAccountPop(context);
                             },
-                            child: const Text("Activate Account?"))
+                            child: const Text("Activate Account?")),
+                        InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, "/loadingscreen");
+                            },
+                            child: const Text("loading?"))
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

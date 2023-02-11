@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ditto/database.dart';
 import 'package:ditto/hard_strings/area_name.dart';
 import 'package:ditto/routes.dart' show route, addRoute;
 import 'package:ditto/login/bg.dart';
+import 'package:ditto/ui/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:ditto/global.dart' as global;
 // Tiruppur and Mettupalayam and coimbatore only supported
 
 class signUp extends StatefulWidget {
@@ -250,7 +254,76 @@ class _signUpState extends State<signUp> {
                 ),
                 Expanded(
                   child: MyElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/loadingscreen");
+
+                        // Verify the inputs
+                        if (pinCode == "Enter pincode") {
+                          quickSnackbar("Enter valid pincode", context);
+                        } else if (AreaName == "Area Name") {
+                          quickSnackbar("Select valid area name", context);
+                        } else if (name.text == "") {
+                          quickSnackbar("Enter a name", context);
+                        } else if (int.tryParse(mobNum.text) != null &&
+                            mobNum.text.length != 10) {
+                          quickSnackbar(
+                              "Enter valid 10 digit mobile number", context);
+                        } else if (int.tryParse(pass.text).toString().length !=
+                            4) {
+                          debugPrint(int.tryParse(pass.text).toString());
+                          quickSnackbar("Enter only 4 digit passcode", context);
+                        } else if (int.tryParse(passVerify.text)
+                                    .toString()
+                                    .length !=
+                                4 ||
+                            passVerify.text != pass.text) {
+                          quickSnackbar(
+                              "Verify passcode doesn't match", context);
+                        } else if (_selectedDate.toString() ==
+                            DateTime.now().toString()) {
+                          quickSnackbar("Select a valid date", context);
+                        } else if (email.text.isEmpty) {
+                          quickSnackbar(
+                              "Enter an email addres if possible", context);
+                        } else if (landmark.text.isEmpty) {
+                          quickSnackbar(
+                              "Enter a landmark if possible", context);
+                        } else if (termsCondition == false) {
+                          quickSnackbar(
+                              "Terms and Conditions should be accepted to proceed",
+                              context);
+                        } else {
+                          debugPrint("Okay sign up!");
+                          account_obj profile = account_obj();
+                          profile.areaName = AreaName;
+                          profile.date = Timestamp.fromDate(_selectedDate);
+                          profile.email = email.text;
+                          profile.landmark = landmark.text;
+                          profile.pass = int.tryParse(pass.text)!;
+                          profile.name = name.text;
+                          profile.mobileNumber = int.tryParse(mobNum.text)!;
+                          profile.pincode = pinCode;
+
+                          // Sending request to db
+                          Future.delayed(Duration.zero, () async {
+                            db_fetch_return req = await global.database!.create(
+                                global.database!
+                                    .addCollection("pending", "/pending"),
+                                profile.mobileNumber.toString(),
+                                profile.toJson());
+
+                            Navigator.pop(context);
+
+                            if (req.status == db_fetch_status.error) {
+                              return quickSnackbar(
+                                  "Error : ${req.data ?? "NO INFO"}", context);
+                            }
+                            quickSnackbar(
+                                "Successfully added; Activate the account now",
+                                context);
+                          });
+                        }
+                      },
                       borderRadius: BorderRadius.circular(20),
                       gradient: const LinearGradient(
                           begin: Alignment.topLeft,
